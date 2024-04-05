@@ -95,27 +95,65 @@
 
 window.onload = function() {
 
+    const NO_IMAGE_FOUND_URL = 'https://the90minutemovie.substack.com/img/missing-image.png';
+    
+    listingContainerElem = document.querySelector('#listings-container');
+
     for (carData of JSON_DATASET) {
-        gridItem = document.createElement('div');
-
-        if (carData['image_url'].length === 0) {
-            continue;
-            // console.log('ff')
-        }
-
-        carImage = document.createElement('img');
-        carImage.src = carData['image_url'];
-
-
+        carImageElem = document.createElement('img');
         
-        console.log(carData['image_url'])
+        if (carData['image_url'].length === 0) {
+            carImageElem.src = NO_IMAGE_FOUND_URL;
+        } else {
+            carImageElem.src = carData['image_url'];
+        }
+        carImageElem.classList.add('car_image');
+
+        priceElem = document.createElement('p');
+        priceElem.classList.add('price');
+        priceElem.textContent = carData['sellingprice'].toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        });
+
+        yearMakeModelElem = document.createElement('p');
+        yearMakeModelElem.classList.add('year-make-model');
+        yearMakeModelElem.textContent = carData['year'] + ' ' + carData['make'] + ' ' + carData['model'];
+
+        shortDescElem = document.createElement('div');
+        shortDescElem.classList.add('short-desc');
+        shortDescElem.appendChild(yearMakeModelElem);
+        shortDescElem.appendChild(priceElem);
+
+        carListingElem = document.createElement('div');
+        carListingElem.classList.add('car-listing');
+        carListingElem.setAttribute('onclick','open_modal();');
+        carListingElem.href = '#';
+        carListingElem.appendChild(carImageElem);
+        carListingElem.appendChild(shortDescElem);
+
+        listingContainerElem.appendChild(carListingElem);
     }
-
-    grid_item = document.createElement(div);
-
 
 }
 
+function close_modal() {
+    document.querySelector('#modal').style.display = 'none';
+}
 
+function open_modal() {
+    modalElem = document.querySelector('#modal');
 
-console.log(JSON_DATASET)
+    if (modalElem.style.display == 'inherit') {
+        return;
+    }
+
+    modalElem.style.display = 'inherit';
+    console.log(dd)
+}
+
+// function 
+
+// console.log(JSON_DATASET)

@@ -1682,4 +1682,4 @@ const JSON_DATASET = [
     "seller": "avis rac/san leandro",
     "sellingprice": 13600
   }
-];
+]
