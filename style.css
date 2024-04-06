@@ -1,36 +1,22 @@
 html,
 body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin: 0;
     padding: 0;
-}
-/* 
-.main-header {
-    background-color: rgba(0, 0, 0, .3);
-    padding-bottom: 10px;
+    background: radial-gradient(circle at 10% 20%, rgb(255, 200, 124) 0.1%, rgb(252, 251, 121) 90%);
 }
 
-.title {
-    text-align: center;
-    margin: 0;
-    font-size: 8em;
-    font-family: "Helvetica";
-    font-weight: normal;
-    color: white;
-} */
-
-.close-btn {
-    display: block;
-    float: right;
-    margin-top: 1rem;
-    margin-right: 1rem;
+p {
+    margin: 0px;
+    padding: 0px;
 }
 
 #modal {
     display: none;
     border-radius: 0.4rem;
     border: gray solid 2px;
-    width: 80vw;
-    height: 80vh;
+    width: max-content;
+    height: min-content;
     background-color: white;
     position: fixed;
     top: 0;
@@ -38,28 +24,62 @@ body {
     left: 0;
     right: 0;
     margin: auto;
+    padding: 2rem;
 }
 
-p {
-    margin: 0px;
-    padding: 0px;
+.close-btn-wrapper {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
-/* 
-a {
-    text-decoration: inherit;
-    color: inherit;
-} */
 
-/* a:visited {
-    text-decoration: inherit;
-    color: inherit;
-    /* cursor: auto; */
-/* }
+.close-btn {
+    display: block;
+    float: right;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    
+    background-color: moccasin;
+    border-color: #fed57b;
+    border-radius: 0.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: .4rem;
+    padding-top: .4rem;
+    font-size: 1rem;
+    font-family: Arial;
+    font-weight: bolder;
+}
 
-/* a {
-    text-decoration: wavy;
-} */
+.modal-image {
+    width: 35rem;
+    /* max-width: min-content; */
+    height: auto;
+    object-fit: cover;
+    margin-bottom: auto;
+    border-radius: 0.4rem;
+}
 
+.modal-image-wrapper {
+    height: 90%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.full-desc-wrapper {
+    display: flex;
+    margin-left: 2rem;
+}
+
+
+.full-desc {
+    margin: auto;
+    padding: 20px;
+    border: #ffdb8b 3px solid;
+    border-radius: 18px;
+    background-color: #fff0d0;
+}
 
 #listings-container {
     display: flex;
@@ -83,56 +103,14 @@ a {
     cursor: pointer;
 }
 
-.car_image {
+.price {
+    font-weight: bold;
+}
+
+.car-image {
     width: 100%;
     height: min-content;
     object-fit: cover;
     margin-bottom: auto;
     border-radius: 0.4rem;
 }
-
-/* 
-.card {
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 5px;
-}
-
-.card-content {
-    padding: 20px;
-    font-family: "Verdana";
-    color: #777;
-}
-
-.card-content h2 {
-    margin-top: 0;
-    font-size: 20px;
-}
-
-.card img {
-    width: 100%;
-    height: auto;
-}
-
-.footer {
-    display: flex;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, .3);
-    padding: 10px;
-}
-
-button {
-    text-align: center;
-    background-color: #666;
-    border: none;
-    padding-left: 10px;
-    padding-right: 10px;
-    height: 40px;
-    border-radius: 10px;
-    color: white;
-    font-size: 22px;
-    cursor: pointer;
-    margin: 5px;
-} */

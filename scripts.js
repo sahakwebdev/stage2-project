@@ -93,23 +93,34 @@
 //     showCards(); // Call showCards again to refresh
 // }
 
-window.onload = function() {
-
+function start(JSON_DATASET) {
     const NO_IMAGE_FOUND_URL = 'https://the90minutemovie.substack.com/img/missing-image.png';
     
-    listingContainerElem = document.querySelector('#listings-container');
+    let listingContainerElem = document.querySelector('#listings-container');
 
     for (carData of JSON_DATASET) {
-        carImageElem = document.createElement('img');
+        let carMetadataElem = document.createElement('meta');
+        carMetadataElem.dataset.yearMakeModel = carData['year'] + ' ' + carData['make'] + ' ' + carData['model'];
+        carMetadataElem.dataset.make          = carData['make'];
+        carMetadataElem.dataset.model         = carData['model'];
+        carMetadataElem.dataset.trim          = carData['trim'];
+        carMetadataElem.dataset.body          = carData['body'];
+        carMetadataElem.dataset.transmission  = carData['transmission'];
+        carMetadataElem.dataset.odometer      = carData['odometer'].toLocaleString('en-US');
+        carMetadataElem.dataset.seller        = carData['seller'];
         
+        let carImageElem = document.createElement('img');
+
         if (carData['image_url'].length === 0) {
             carImageElem.src = NO_IMAGE_FOUND_URL;
+            carMetadataElem.dataset.imageUrl = NO_IMAGE_FOUND_URL;
         } else {
             carImageElem.src = carData['image_url'];
+            carMetadataElem.dataset.imageUrl = carData['image_url'];
         }
-        carImageElem.classList.add('car_image');
+        carImageElem.classList.add('car-image');
 
-        priceElem = document.createElement('p');
+        let priceElem = document.createElement('p');
         priceElem.classList.add('price');
         priceElem.textContent = carData['sellingprice'].toLocaleString('en-US', {
             style: 'currency',
@@ -118,51 +129,73 @@ window.onload = function() {
             maximumFractionDigits: 2
         });
 
-        yearMakeModelElem = document.createElement('p');
+        let yearMakeModelElem = document.createElement('p');
         yearMakeModelElem.classList.add('year-make-model');
         yearMakeModelElem.textContent = carData['year'] + ' ' + carData['make'] + ' ' + carData['model'];
 
-        shortDescElem = document.createElement('div');
+        let shortDescElem = document.createElement('div');
         shortDescElem.classList.add('short-desc');
         shortDescElem.appendChild(yearMakeModelElem);
         shortDescElem.appendChild(priceElem);
         
-        carMetadataElem = document.createElement('meta');
-        carMetadataElem.dataset.trim         = carData['trim'];
-        carMetadataElem.dataset.body         = carData['body'];
-        carMetadataElem.dataset.transmission = carData['transmission'];
-        carMetadataElem.dataset.odometer     = carData['odometer'];
-        carMetadataElem.dataset.seller       = carData['seller'];
-
-        carListingElem = document.createElement('div');
-        carListingElem.classList.add('car-listing');
-        carListingElem.setAttribute('onclick','open_modal();');
+        let carListingElem = document.createElement('div');
         carListingElem.href = '#';
+        carListingElem.classList.add('car-listing');
+        carListingElem.setAttribute('onclick','open_modal(this);');
         carListingElem.appendChild(carImageElem);
         carListingElem.appendChild(shortDescElem);
         carListingElem.appendChild(carMetadataElem);
 
-
         listingContainerElem.appendChild(carListingElem);
     }
+}
 
+window.onload = function() {
+    start(JSON_DATASET);
+    
+
+}
+
+function shuffle_listings() {
+    input_data = JSON_DATASET;
+    document.querySelector('#listings-container').innerHTML = ''
+    input_data = JSON_DATASET;
+    let currentIndex = input_data.length;
+    
+    while (currentIndex != 0) {
+    
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+    
+        temp = input_data[currentIndex];
+        input_data[currentIndex] = input_data[randomIndex];
+        input_data[randomIndex] = temp;
+    }
+
+    start(input_data);
 }
 
 function close_modal() {
     document.querySelector('#modal').style.display = 'none';
 }
 
-function open_modal() {
-    modalElem = document.querySelector('#modal');
+function open_modal(selectedCarElem) {
+    let modalElem = document.querySelector('#modal');
 
     if (modalElem.style.display == 'inherit') {
         return;
     }
 
-    modalElem.style.display = 'inherit';
-    console.log(dd)
+    let carMetadataElem = selectedCarElem.querySelector("meta");
+
+    document.querySelector('.modal-image').src = carMetadataElem.dataset.imageUrl;
+
+    document.querySelector('.modal-car-year-make-model').innerText = carMetadataElem.dataset.yearMakeModel;
+    document.querySelector('.modal-car-trim').innerText            = 'Trim: ' + carMetadataElem.dataset.trim;
+    document.querySelector('.modal-car-body').innerText            = 'Body: ' + carMetadataElem.dataset.body;
+    document.querySelector('.modal-car-transmission').innerText    = 'Transmission Type: ' + carMetadataElem.dataset.transmission;
+    document.querySelector('.modal-car-odometer').innerText        = 'Odometer Reading: ' + carMetadataElem.dataset.odometer + ' miles';
+    document.querySelector('.modal-car-seller').innerText          = 'Seller: ' + carMetadataElem.dataset.seller;
+
+    modalElem.style.display = 'flex';
 }
-
-// function 
-
-// console.log(JSON_DATASET)

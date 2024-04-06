@@ -14,8 +14,9 @@
         <h1 class="title">LA TV Shows</h1>
     </header>
     <div id="listings-container">
+        <button onclick="shuffle_listings()">dd</button>
         <a href="" class="car-listing">
-            <img class="car_image" src="https://images.hgmsites.net/lrg/2014-audi-a6-4-door-sedan-fronttrak-2-0t-premium-plus-angular-front-exterior-view_100454965_l.jpg" alt="https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg">
+            <img class="car-image" src="https://images.hgmsites.net/lrg/2014-audi-a6-4-door-sedan-fronttrak-2-0t-premium-plus-angular-front-exterior-view_100454965_l.jpg" alt="https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg">
             <div class="short-desc">
                 <p class="year-make-model">
                     2020 Kia Sponet
@@ -36,9 +37,24 @@
     </div>
 
     <div id="modal">
-        <button class="close-btn" onclick="close_modal()">
-            Close
-        </button>
+        <div class="close-btn-wrapper">
+            <button class="close-btn" onclick="close_modal()">
+                Close
+            </button>
+        </div>
+        <div class="modal-image-wrapper">
+            <img class="modal-image" src="" alt="">
+        </div>
+        <div class="full-desc-wrapper">
+            <ul class="full-desc">
+                <h3 class="modal-car-year-make-model"></h3>
+                <li class="modal-car-trim"></li>
+                <li class="modal-car-body"></li>
+                <li class="modal-car-transmission"></li>
+                <li class="modal-car-odometer"></li>
+                <li class="modal-car-seller"></li>
+            </ul>
+        </div>
     </div>
 
     </div>
