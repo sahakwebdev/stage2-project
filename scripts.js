@@ -126,6 +126,13 @@ window.onload = function() {
         shortDescElem.classList.add('short-desc');
         shortDescElem.appendChild(yearMakeModelElem);
         shortDescElem.appendChild(priceElem);
+        
+        carMetadataElem = document.createElement('meta');
+        carMetadataElem.dataset.trim         = carData['trim'];
+        carMetadataElem.dataset.body         = carData['body'];
+        carMetadataElem.dataset.transmission = carData['transmission'];
+        carMetadataElem.dataset.odometer     = carData['odometer'];
+        carMetadataElem.dataset.seller       = carData['seller'];
 
         carListingElem = document.createElement('div');
         carListingElem.classList.add('car-listing');
@@ -133,6 +140,8 @@ window.onload = function() {
         carListingElem.href = '#';
         carListingElem.appendChild(carImageElem);
         carListingElem.appendChild(shortDescElem);
+        carListingElem.appendChild(carMetadataElem);
+
 
         listingContainerElem.appendChild(carListingElem);
     }
