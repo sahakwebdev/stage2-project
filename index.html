@@ -11,7 +11,21 @@
 
 <body>
     <header class="main-header">
-        <h1 class="title">LA TV Shows</h1>
+        <h1 id="title">LA TV Shows</h1>
+        <div class="controls-wrapper">
+            <button class="control-btn" onclick="shuffle_listings()">
+                Shuffle Listings
+            </button>
+            <button class="control-btn" onclick="open_random_listing()">
+                Open Random Listing
+            </button>
+            <button class="control-btn" onclick="sort_by_pricing('ascending')">
+                Sort Price Ascending
+            </button>
+            <button class="control-btn" onclick="sort_by_pricing('descending')">
+                Sort Price Descending
+            </button>
+        </div>
     </header>
     <div id="listings-container">
         <button onclick="shuffle_listings()">dd</button>

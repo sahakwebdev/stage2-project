@@ -175,6 +175,28 @@ function shuffle_listings() {
     start(input_data);
 }
 
+function open_random_listing() {
+    allListingElems = document.querySelectorAll('.car-listing');
+
+    randomIndex = Math.floor(Math.random() * allListingElems.length);
+
+    allListingElems[randomIndex].click();
+}
+
+function sort_by_pricing(direction) {
+    input_data = JSON_DATASET;
+
+    if (direction == 'ascending') {
+        input_data.sort((a, b) => a['sellingprice'] - b['sellingprice']);
+    } else if (direction == 'descending') {
+        input_data.sort((a, b) => b['sellingprice'] - a['sellingprice']);
+    }
+
+    document.querySelector('#listings-container').innerHTML = ''
+    start(input_data);
+}
+
+
 function close_modal() {
     document.querySelector('#modal').style.display = 'none';
 }
