@@ -23,77 +23,11 @@
  * 
  */
 
+window.onload = function() {
+    display_catalog_listings(JSON_DATASET);
+}
 
-// const FRESH_PRINCE_URL = "https://upload.wikimedia.org/wikipedia/en/3/33/Fresh_Prince_S1_DVD.jpg";
-// const CURB_POSTER_URL = "https://m.media-amazon.com/images/M/MV5BZDY1ZGM4OGItMWMyNS00MDAyLWE2Y2MtZTFhMTU0MGI5ZDFlXkEyXkFqcGdeQXVyMDc5ODIzMw@@._V1_FMjpg_UX1000_.jpg";
-// const EAST_LOS_HIGH_POSTER_URL = "https://static.wikia.nocookie.net/hulu/images/6/64/East_Los_High.jpg";
-
-// // This is an array of strings (TV show titles)
-// let titles = [
-//     "Fresh Prince of Bel Air",
-//     "Curb Your Enthusiasm",
-//     "East Los High"
-// ];
-// // Your final submission should have much more data than this, and 
-// // you should use more than just an array of strings to store it all.
-
-
-// // This function adds cards the page to display the data in the array
-// function showCards() {
-//     const cardContainer = document.getElementById("card-container");
-//     cardContainer.innerHTML = "";
-//     const templateCard = document.querySelector(".card");
-    
-//     for (let i = 0; i < titles.length; i++) {
-//         let title = titles[i];
-
-//         // This part of the code doesn't scale very well! After you add your
-//         // own data, you'll need to do something totally different here.
-//         let imageURL = "";
-//         if (i == 0) {
-//             imageURL = FRESH_PRINCE_URL;
-//         } else if (i == 1) {
-//             imageURL = CURB_POSTER_URL;
-//         } else if (i == 2) {
-//             imageURL = EAST_LOS_HIGH_POSTER_URL;
-//         }
-
-//         const nextCard = templateCard.cloneNode(true); // Copy the template card
-//         editCardContent(nextCard, title, imageURL); // Edit title and image
-//         cardContainer.appendChild(nextCard); // Add new card to the container
-//     }
-// }
-
-// function editCardContent(card, newTitle, newImageURL) {
-//     card.style.display = "block";
-
-//     const cardHeader = card.querySelector("h2");
-//     cardHeader.textContent = newTitle;
-
-//     const cardImage = card.querySelector("img");
-//     cardImage.src = newImageURL;
-//     cardImage.alt = newTitle + " Poster";
-
-//     // You can use console.log to help you debug!
-//     // View the output by right clicking on your website,
-//     // select "Inspect", then click on the "Console" tab
-//     console.log("new card:", newTitle, "- html: ", card);
-// }
-
-// // This calls the addCards() function when the page is first loaded
-// document.addEventListener("DOMContentLoaded", showCards);
-
-// function quoteAlert() {
-//     console.log("Button Clicked!")
-//     alert("I guess I can kiss heaven goodbye, because it got to be a sin to look this good!");
-// }
-
-// function removeLastCard() {
-//     titles.pop(); // Remove last item in titles array
-//     showCards(); // Call showCards again to refresh
-// }
-
-function start(JSON_DATASET) {
+function display_catalog_listings(JSON_DATASET) {
     const NO_IMAGE_FOUND_URL = 'https://the90minutemovie.substack.com/img/missing-image.png';
     
     let listingContainerElem = document.querySelector('#listings-container');
@@ -103,6 +37,7 @@ function start(JSON_DATASET) {
         carMetadataElem.dataset.yearMakeModel = carData['year'] + ' ' + carData['make'] + ' ' + carData['model'];
         carMetadataElem.dataset.make          = carData['make'];
         carMetadataElem.dataset.model         = carData['model'];
+        carMetadataElem.dataset.price         = carData['sellingprice'];
         carMetadataElem.dataset.trim          = carData['trim'];
         carMetadataElem.dataset.body          = carData['body'];
         carMetadataElem.dataset.transmission  = carData['transmission'];
@@ -150,20 +85,14 @@ function start(JSON_DATASET) {
     }
 }
 
-window.onload = function() {
-    start(JSON_DATASET);
-    
-
-}
-
 function shuffle_listings() {
     input_data = JSON_DATASET;
-    document.querySelector('#listings-container').innerHTML = ''
-    input_data = JSON_DATASET;
+
+    document.querySelector('#listings-container').innerHTML = '';
+
     let currentIndex = input_data.length;
     
     while (currentIndex != 0) {
-    
         let randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
     
@@ -172,7 +101,7 @@ function shuffle_listings() {
         input_data[randomIndex] = temp;
     }
 
-    start(input_data);
+    display_catalog_listings(input_data);
 }
 
 function open_random_listing() {
@@ -193,12 +122,7 @@ function sort_by_pricing(direction) {
     }
 
     document.querySelector('#listings-container').innerHTML = ''
-    start(input_data);
-}
-
-
-function close_modal() {
-    document.querySelector('#modal').style.display = 'none';
+    display_catalog_listings(input_data);
 }
 
 function open_modal(selectedCarElem) {
@@ -213,6 +137,7 @@ function open_modal(selectedCarElem) {
     document.querySelector('.modal-image').src = carMetadataElem.dataset.imageUrl;
 
     document.querySelector('.modal-car-year-make-model').innerText = carMetadataElem.dataset.yearMakeModel;
+    document.querySelector('.modal-car-price').innerText           = 'Price: ' + toUSCurrentyFormat(carMetadataElem.dataset.price);
     document.querySelector('.modal-car-trim').innerText            = 'Trim: ' + carMetadataElem.dataset.trim;
     document.querySelector('.modal-car-body').innerText            = 'Body: ' + carMetadataElem.dataset.body;
     document.querySelector('.modal-car-transmission').innerText    = 'Transmission Type: ' + carMetadataElem.dataset.transmission;
@@ -220,4 +145,18 @@ function open_modal(selectedCarElem) {
     document.querySelector('.modal-car-seller').innerText          = 'Seller: ' + carMetadataElem.dataset.seller;
 
     modalElem.style.display = 'flex';
+}
+
+function close_modal() {
+    document.querySelector('#modal').style.display = 'none';
+}
+
+function toUSCurrentyFormat(number) {
+    number = parseInt(number);
+    return number.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    });
 }
