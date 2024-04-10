@@ -81,7 +81,7 @@ function display_catalog_listings(JSON_DATASET) {
 }
 
 function shuffle_listings() {
-    let input_data = JSON_DATASET;
+    input_data = JSON_DATASET;
 
     document.querySelector('#listings-container').innerHTML = '';
 
@@ -147,7 +147,7 @@ function close_modal() {
 }
 
 function to_US_currenty_format(number) {
-    let number = parseInt(number);
+    number = parseInt(number);
     return number.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
