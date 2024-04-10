@@ -1,5 +1,5 @@
 /**
- * Data Catalog Project Starter Code - SEA Stage 2
+ * Used Car Sales Near You! Catalog Project / Data Catalog Project Starter Code - SEA Stage 2
  *
  * This file is where you should be doing most of your work. You should
  * also make changes to the HTML and CSS files, but we want you to prioritize
@@ -57,12 +57,7 @@ function display_catalog_listings(JSON_DATASET) {
 
         let priceElem = document.createElement('p');
         priceElem.classList.add('price');
-        priceElem.textContent = carData['sellingprice'].toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2
-        });
+        priceElem.textContent = to_US_currenty_format(carData['sellingprice']);
 
         let yearMakeModelElem = document.createElement('p');
         yearMakeModelElem.classList.add('year-make-model');
@@ -86,7 +81,7 @@ function display_catalog_listings(JSON_DATASET) {
 }
 
 function shuffle_listings() {
-    input_data = JSON_DATASET;
+    let input_data = JSON_DATASET;
 
     document.querySelector('#listings-container').innerHTML = '';
 
@@ -96,7 +91,7 @@ function shuffle_listings() {
         let randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
     
-        temp = input_data[currentIndex];
+        let temp = input_data[currentIndex];
         input_data[currentIndex] = input_data[randomIndex];
         input_data[randomIndex] = temp;
     }
@@ -105,23 +100,23 @@ function shuffle_listings() {
 }
 
 function open_random_listing() {
-    allListingElems = document.querySelectorAll('.car-listing');
+    let allListingElems = document.querySelectorAll('.car-listing');
 
-    randomIndex = Math.floor(Math.random() * allListingElems.length);
+    let randomIndex = Math.floor(Math.random() * allListingElems.length);
 
     allListingElems[randomIndex].click();
 }
 
 function sort_by_pricing(direction) {
-    input_data = JSON_DATASET;
+    let input_data = JSON_DATASET;
 
     if (direction == 'ascending') {
-        input_data.sort((a, b) => a['sellingprice'] - b['sellingprice']);
+        input_data = mergeSort(input_data, 'sellingprice', order = 'ascending');
     } else if (direction == 'descending') {
-        input_data.sort((a, b) => b['sellingprice'] - a['sellingprice']);
+        input_data = mergeSort(input_data, 'sellingprice', order = 'descending');
     }
 
-    document.querySelector('#listings-container').innerHTML = ''
+    document.querySelector('#listings-container').innerHTML = '';
     display_catalog_listings(input_data);
 }
 
@@ -137,7 +132,7 @@ function open_modal(selectedCarElem) {
     document.querySelector('.modal-image').src = carMetadataElem.dataset.imageUrl;
 
     document.querySelector('.modal-car-year-make-model').innerText = carMetadataElem.dataset.yearMakeModel;
-    document.querySelector('.modal-car-price').innerText           = 'Price: ' + toUSCurrentyFormat(carMetadataElem.dataset.price);
+    document.querySelector('.modal-car-price').innerText           = 'Price: ' + to_US_currenty_format(carMetadataElem.dataset.price);
     document.querySelector('.modal-car-trim').innerText            = 'Trim: ' + carMetadataElem.dataset.trim;
     document.querySelector('.modal-car-body').innerText            = 'Body: ' + carMetadataElem.dataset.body;
     document.querySelector('.modal-car-transmission').innerText    = 'Transmission Type: ' + carMetadataElem.dataset.transmission;
@@ -151,7 +146,7 @@ function close_modal() {
     document.querySelector('#modal').style.display = 'none';
 }
 
-function toUSCurrentyFormat(number) {
+function to_US_currenty_format(number) {
     number = parseInt(number);
     return number.toLocaleString('en-US', {
         style: 'currency',
@@ -159,4 +154,40 @@ function toUSCurrentyFormat(number) {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2
     });
+}
+
+function mergeSort(arrayOfObjects, sortBy, order = 'ascending') {
+    if (arrayOfObjects.length <= 1) {
+        return arrayOfObjects;
+    }
+
+    let middleIndex = Math.floor(arrayOfObjects.length / 2);
+    let leftHalf = arrayOfObjects.slice(0, middleIndex);
+    let rightHalf = arrayOfObjects.slice(middleIndex);
+
+    let sortedLeftHalf = mergeSort(leftHalf, order, sortBy);
+    let sortedRightHalf = mergeSort(rightHalf, order, sortBy);
+
+    return merge(sortedLeftHalf, sortedRightHalf, order, sortBy);
+}
+
+function merge(leftHalf, rightHalf, order, sortBy) {
+    let result = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+
+    while (leftIndex < leftHalf.length && rightIndex < rightHalf.length) {
+        let leftPrice = leftHalf[leftIndex][sortBy];
+        let rightPrice = rightHalf[rightIndex][sortBy];
+
+        if ((order === 'ascending' && leftPrice <= rightPrice) || (order === 'descending' && leftPrice >= rightPrice)) {
+            result.push(leftHalf[leftIndex]);
+            leftIndex++;
+        } else {
+            result.push(rightHalf[rightIndex]);
+            rightIndex++;
+        }
+    }
+
+    return result.concat(leftHalf.slice(leftIndex), rightHalf.slice(rightIndex));
 }
