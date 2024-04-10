@@ -1,5 +1,5 @@
 /**
- * Used Car Sales Near You! Catalog Project / Data Catalog Project Starter Code - SEA Stage 2
+ *  Used Car Sales Near You! Catalog Project / Data Catalog Project Starter Code - SEA Stage 2
  *
  * This file is where you should be doing most of your work. You should
  * also make changes to the HTML and CSS files, but we want you to prioritize
@@ -116,7 +116,7 @@ function sort_by_pricing(direction) {
         input_data = mergeSort(input_data, 'sellingprice', order = 'descending');
     }
 
-    document.querySelector('#listings-container').innerHTML = '';
+    document.querySelector('#listings-container').innerHTML = ''
     display_catalog_listings(input_data);
 }
 
@@ -147,7 +147,7 @@ function close_modal() {
 }
 
 function to_US_currenty_format(number) {
-    number = parseInt(number);
+    let number = parseInt(number);
     return number.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
@@ -165,8 +165,8 @@ function mergeSort(arrayOfObjects, sortBy, order = 'ascending') {
     let leftHalf = arrayOfObjects.slice(0, middleIndex);
     let rightHalf = arrayOfObjects.slice(middleIndex);
 
-    let sortedLeftHalf = mergeSort(leftHalf, order, sortBy);
-    let sortedRightHalf = mergeSort(rightHalf, order, sortBy);
+    let sortedLeftHalf = mergeSort(leftHalf, sortBy, order);
+    let sortedRightHalf = mergeSort(rightHalf, sortBy, order);
 
     return merge(sortedLeftHalf, sortedRightHalf, order, sortBy);
 }
